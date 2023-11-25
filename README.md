@@ -1,3 +1,4 @@
 # database-server
 
-Fullständigt onödigt repo? Pass.
+Dockerfile i detta repo fungerar ej.
+Databasen är en backup med Admins, Customers och Scooters.
