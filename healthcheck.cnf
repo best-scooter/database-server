@@ -1,0 +1,4 @@
+[mariadb-client]
+user=user
+password=password
+database=test
