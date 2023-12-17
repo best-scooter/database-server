@@ -20,11 +20,9 @@ FROM mariadb:11.2.2 as builder
 RUN ["sed", "-i", "s/exec \"$@\"/echo \"not running $@\"/", "/usr/local/bin/docker-entrypoint.sh"]
 
 # needed for intialization
-ENV MARIADB_ROOT_PASSWORD=root
+ENV MARIADB_ROOT_PASSWORD=example
 
-# COPY database-v1.sql /docker-entrypoint-initdb.d/
-COPY database-v2.sql /docker-entrypoint-initdb.d/
-# COPY healthcheck.sql /docker-entrypoint-initdb.d/
+COPY database-current.sql /docker-entrypoint-initdb.d/
 
 # Need to change the datadir to something else that /var/lib/mysql because the parent docker file defines it as a volume.
 # https://docs.docker.com/engine/reference/builder/#volume :
@@ -35,4 +33,5 @@ RUN ["/usr/local/bin/docker-entrypoint.sh", "mariadbd", "--datadir", "/initializ
 FROM mariadb:11.2.2
 
 COPY --from=builder /initialized-db /var/lib/mysql
+# use healthcheck file
 COPY healthcheck.cnf /
